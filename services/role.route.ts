@@ -1,4 +1,5 @@
 import { Router } from "express";
+import AsyncHandler from "../middleware/AsyncHandler";
 import {
     handleAllUserRole,
     handleGetUserRoleById,
@@ -9,10 +10,10 @@ import {
 
 const RoleRouter: Router = Router();
 
-RoleRouter.get("/", handleAllUserRole);
-RoleRouter.post("/", handleCreateNewUserRole);
-RoleRouter.put("/:id", handleUpdateUserRoleById);
-RoleRouter.delete("/:id", handleDeleteUserRoleById);
-RoleRouter.get("/:id", handleGetUserRoleById);
+RoleRouter.get("/", AsyncHandler(handleAllUserRole));
+RoleRouter.post("/", AsyncHandler(handleCreateNewUserRole));
+RoleRouter.put("/:id", AsyncHandler(handleUpdateUserRoleById));
+RoleRouter.delete("/:id", AsyncHandler(handleDeleteUserRoleById));
+RoleRouter.get("/:id", AsyncHandler(handleGetUserRoleById));
 
 export default RoleRouter;

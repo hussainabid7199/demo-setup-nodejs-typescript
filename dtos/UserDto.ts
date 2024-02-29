@@ -11,6 +11,7 @@ export default interface UserDto {
     token?: string;
     role?: string;
     createdAt: Date;
+    isActive?: boolean;
     updatedAt?: Date;
     deletedAt?: Date;
   }

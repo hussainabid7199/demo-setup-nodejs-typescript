@@ -1,5 +1,6 @@
-import mongoose, { Document, Model, Schema } from "mongoose";
+import mongoose, { Model, Schema } from "mongoose";
 import UserDto from "../dtos/UserDto";
+
 
 
 const User: Schema<UserDto> = new Schema({
@@ -13,6 +14,7 @@ const User: Schema<UserDto> = new Schema({
   confirmPassword: { type: String, required: true },
   token: { type: String },
   role: { type: String },
+  isActive: {type: Boolean},
   createdAt: { type: Date, default: Date.now },
   updatedAt: { type: Date },
   deletedAt: { type: Date },

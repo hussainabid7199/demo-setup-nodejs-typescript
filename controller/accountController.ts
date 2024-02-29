@@ -14,7 +14,7 @@ const handleLogin = async (req: Request, res: Response, next: NextFunction): Pro
             throw res.status(400).json({ error: "Please fill in the data" });
         }
 
-        const user = await User.findOne({ email: email });
+        const user = await User.findOne({ email: email, isActive: true });
 
         if (!user) {
             throw createError.NotFound("User not registered!");
