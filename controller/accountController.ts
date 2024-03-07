@@ -29,14 +29,13 @@ const handleLogin = async (req: Request, res: Response, next: NextFunction): Pro
         const accessToken = await loginAccessToken(user.id);
 
         res.cookie("cookies", accessToken, { httpOnly: true, secure: true });
-        res.setHeader('Authorization', `Bearer ${accessToken}`);
-        res.setHeader('CLIENT_ID', `${process.env.CLIENT_ID}`);
+        res.setHeader('Authorization', `at ${accessToken}`);
+        res.setHeader('client_id', `${process.env.CLIENT_ID}`);
 
         response(res, 200, "json", "Login Successfull!");
 
     } catch (error: string | any) {
         if (error.name === 'ValidationError') {
-            // return res.status(400).json({ error: "Invalid email or password format" });
             res.status(400).json({ error: "Invalid email or password format" });
         }
 

@@ -1,35 +1,36 @@
 import bcrypt from "bcrypt";
-import User from "../schema/user";
-import UserRole from "../schema/role";
+import User from '../schema/UserSchema';
 import { Request, Response } from "express";
 import { loginAccessToken, refreshAccessToken } from "../middleware/jwt.helper";
-import AddUserModel from "../models/addUserModel";
+import UserRoleSchema from "../schema/RoleSchema";
+import AddUserValidation from "../validation/userValidation";
 
 const handleAllUsers = async(req: Request, res: Response): Promise<void> => {
     const allUser = await User.find({});
-    res.json(allUser);
+    const response = res.json(allUser);
+    res.send(response.json());
 }
 
 const handleGetUserById = async(req: Request, res: Response): Promise<void> => {
     let user = await User.findById(req.params.id);
-    if (!user) return res.status(404).send("No user with that id!");
-    res.send(user.json());
+    if (!user) res.status(404).send("No user with that id!");
+    res.send(user).json();
 }
 
 const handleUpdateUserById = async(req: Request, res: Response): Promise<void> => {
-    let user = await User.findByIdAndUpdate(req.params.id, AddUserModel);
+    let user = await User.findByIdAndUpdate(req.params.id, AddUserValidation);
     !user ? res.status(404).send('The user does not exist') :  
-    res.send(user.json());
+    res.send(user).json();
 }
 
 const handleDeleteUserById = async(req: Request, res: Response): Promise<void> => {
     await User.findByIdAndDelete(req.params.id);
-    return res.json({ stats: "Deleted!" });
+    res.json({ stats: "Deleted!" });
 }
 
 const handleCreateNewUser = async(req: Request, res: Response): Promise<void> => {
     try {
-        const userData = AddUserModel.validateSync(req.body);
+        const userData = AddUserValidation.validateSync(req.body);
         console.log({userData});
         const newUser = new User(userData);
         if (
@@ -42,34 +43,35 @@ const handleCreateNewUser = async(req: Request, res: Response): Promise<void> =>
           !newUser.phone ||
           !newUser.password ||
           !newUser.confirmPassword ||
-          !newUser.role
+          !newUser.role ||
+          !newUser.isActive
         ) {
-          return "All Fields Required";
+           "All Fields Required";
         } else {
           const userExist = await User.findOne({ email: newUser.email });
           if (userExist) {
-            return res.status(422).json({ message: "Already register" });
+               res.status(422).json({ message: "Already register" });
           } else {
             if(!newUser.role){
-              return res.status(422).json({ message: "User role required!" });
+               res.status(422).json({ message: "User role required!" });
             }else{
-                const userRole = await UserRole.findOne({roleName: newUser.role});
+                const userRole = await UserRoleSchema.findOne({roleName: newUser.role});
                 const encryptPassword  = bcrypt.hashSync(newUser.password, 12);  
                 newUser.password = encryptPassword;
                 const encryptConfirmPassword  = bcrypt.hashSync(newUser.confirmPassword, 12);  
                 newUser.confirmPassword = encryptConfirmPassword;
                 if(userRole){
-                    newUser.role = userRole.roleId;
+                  newUser.role = userRole.roleId.toString();
                 }
             }
             const saveUser = await newUser.save();
-            await res.status(201).json(saveUser);
+            res.status(201).json(saveUser);
             return;
           }
         }
       } catch (e) {
-        console.log({"error": e.errors});
-        await res.status(500).send({"message": e.message});
+        console.log({"error": e});
+        res.status(500).send({"message": e});
       }
 }
 

@@ -7,4 +7,5 @@ export default interface UserModel {
     password: string;
     confirmPassword: string;
     role: string;
+    isActive?: boolean;
 }

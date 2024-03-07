@@ -10,7 +10,8 @@ const userValidation: Yup.ObjectSchema<UserModel> = Yup.object({
     password: Yup.string().required(),
     confirmPassword: Yup.string().required(),
     role: Yup.string()
-        .oneOf(['SuperAdmin', 'Administrator', "Teacher", 'Student', 'Admin', 'Parent', 'Transport', 'Canteen', 'Staff', 'Account'], 'Invalid user type!').required("User role is required!")
+        .oneOf(['SuperAdmin', 'Administrator', "Teacher", 'Student', 'Admin', 'Parent', 'Transport', 'Canteen', 'Staff', 'Account'], 'Invalid user type!').required("User role is required!"),
+        isActive: Yup.boolean().default(true)
 }).required();
 
 export default userValidation;
