@@ -27,12 +27,12 @@ const handleLogin = async (req: Request, res: Response, next: NextFunction): Pro
         }
 
         const accessToken = await loginAccessToken(user.id);
-
+        user.token = accessToken;
         res.cookie("cookies", accessToken, { httpOnly: true, secure: true });
         res.setHeader('Authorization', `at ${accessToken}`);
-        res.setHeader('client_id', `${process.env.CLIENT_ID}`);
+        res.setHeader('clientId', `${process.env.CLIENT_ID}`);
 
-        response(res, 200, "json", "Login Successfull!");
+        response(res, 200, "json", user);
 
     } catch (error: string | any) {
         if (error.name === 'ValidationError') {

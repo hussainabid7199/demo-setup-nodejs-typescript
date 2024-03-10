@@ -58,6 +58,8 @@ const handleCreateNewStudent = async (req: Request, res: Response) => {
         res.status(201).json(saveStudent);
         return;
       }
+    }else{
+      return  res.send('You are not authorized to create a student account.');
     }
   } catch (e) {
     console.log({ error: e });
