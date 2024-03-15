@@ -13,7 +13,7 @@ const handleAllStudent = async (req: Request, res: Response): Promise<void> => {
     const allStudent = await Student.find();
     !allStudent ? response(res, 400, "json", allStudent) : response(res, 200, "json", allStudent);
   } catch (error: string | any) {
-    res.status(500).send("Error retrieving all roles: " + error.message);
+   throw res.status(500).send("Error retrieving all roles: " + error.message);
   }
 };
 
@@ -23,7 +23,7 @@ const handleGetStudentById = async (req: Request, res: Response): Promise<void> 
     const user = await Student.findById(req.params.id);
     !user ? res.status(404).send("No student found!") : res.json(user);
   } catch (error: string | any) {
-    res.status(500).send("Error retrieving student! " + error.message);
+   throw res.status(500).send("Error retrieving student! " + error.message);
   }
 };
 
@@ -63,7 +63,7 @@ const handleCreateNewStudent = async (req: Request, res: Response) => {
     }
   } catch (e) {
     console.log({ error: e });
-    res.status(500).send({ message: e });
+   throw res.status(500).send({ message: e });
   }
 };
 

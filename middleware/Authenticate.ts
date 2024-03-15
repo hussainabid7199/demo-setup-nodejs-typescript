@@ -9,11 +9,12 @@ interface CustomRequest extends Request {
     };
 }
 
-const verifyAccessToken = (req: CustomRequest, res: Response, next: NextFunction): void => {
+const Authentication = async(req: Request, res: Response, next: NextFunction) => {
     const authToken: string = req.headers['Authorization'] as string;
-    const clientId: string = req.headers['CLIENT_ID'] as string;
+    const clientId: string = req.headers['clientId'] as string;
     
-
+    console.log("authToken",authToken)
+    console.log("clientId",clientId)
   const clientVerification: boolean = clientId === process.env.CLIENT_ID;
 
   if (!clientId) {
@@ -30,11 +31,11 @@ const verifyAccessToken = (req: CustomRequest, res: Response, next: NextFunction
     const secretKey: string = process.env.SECRET_KEY as string;
     const token: string = authToken.split(' ')[1];
     const decoded: any = jwt.verify(token, secretKey) as VerifyErrors;
-    req.user = {
-      status: decoded,
-      statusCode: 200
-    };
-    next();
+    // req.user = {
+    //   status: decoded,
+    //   statusCode: 200
+    // };
+    next(decoded);
   } catch (error) {
     if (error) {
       next(createError(401, 'Unauthorized'));
@@ -43,4 +44,4 @@ const verifyAccessToken = (req: CustomRequest, res: Response, next: NextFunction
   }
 };
 
-export default verifyAccessToken;
+export default Authentication;

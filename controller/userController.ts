@@ -6,30 +6,40 @@ import UserRoleSchema from "../schema/RoleSchema";
 import AddUserValidation from "../validation/userValidation";
 import UserDto from "../dtos/UserDto";
 
-const handleAllUsers = async (req: Request, res: Response): Promise<void> => {
-  const allUser = await User.find({});
-  const response = res.json(allUser);
-  res.send(response.json());
+const handleAllUsers = async (req: Request, res: Response) => {
+  try {
+    const allUsers = await User.find();
+    return res.json(allUsers); // Sending JSON response directly
+  } catch (e) {
+    throw res.status(500).json({ error: e });
+  }
 };
 
 const handleGetUserById = async (
   req: Request,
   res: Response
 ): Promise<void> => {
-  let user = await User.findById(req.params.id);
-  if (!user) res.status(404).send("No user with that id!");
-  res.send(user).json();
+  try {
+    let user = await User.findById(req.params.id);
+    if (!user) res.status(404).send("No user with that id!");
+    res.send(user).json();
+  } catch (e) {
+    throw res.status(500).json({ error: e });
+  }
 };
-
 
 const handleUpdateUserById = async (
   req: Request,
   res: Response
 ): Promise<void> => {
-  let user = await User.findByIdAndUpdate(req.params.id, AddUserValidation);
-  !user
-    ? res.status(404).send("The user does not exist")
-    : res.send(user).json();
+  try {
+    let user = await User.findByIdAndUpdate(req.params.id, AddUserValidation);
+    !user
+      ? res.status(404).send("The user does not exist")
+      : res.send(user).json();
+  } catch (e) {
+    throw res.status(500).json({ error: e });
+  }
 };
 
 const handleDeleteUserById = async (
@@ -91,7 +101,7 @@ const handleCreateNewUser = async (
     }
   } catch (e) {
     console.log({ error: e });
-    res.status(500).send({ message: e });
+    throw res.status(500).send({ message: e });
   }
 };
 

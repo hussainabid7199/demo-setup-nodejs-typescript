@@ -7,7 +7,7 @@ const handleAllUserRole = async (req: Request, res: Response): Promise<void> => 
     const allRole = await UserRoleSchema.find();
     !allRole ? response(res, 400, "json", allRole) : response(res, 200, "json", allRole);
   } catch (error: string | any) {
-    res.status(500).send("Error retrieving all roles: " + error.message);
+   throw res.status(500).send("Error retrieving all roles: " + error.message);
   }
 };
 
@@ -16,7 +16,7 @@ const handleGetUserRoleById = async (req: Request, res: Response): Promise<void>
     const user = await UserRoleSchema.findById(req.params.id);
     !user ? res.status(404).send("No role with that id!") : res.json(user);
   } catch (error: string | any) {
-    res.status(500).send("Error retrieving role by id: " + error.message);
+   throw res.status(500).send("Error retrieving role by id: " + error.message);
   }
 };
 
@@ -27,7 +27,7 @@ const handleUpdateUserRoleById = async (req: Request, res: Response): Promise<vo
     });
     res.json({ status: "Success" });
   } catch (error: string | any) {
-    res.status(500).send("Error updating role by id: " + error.message);
+   throw res.status(500).send("Error updating role by id: " + error.message);
   }
 };
 
@@ -36,7 +36,7 @@ const handleDeleteUserRoleById = async (req: Request, res: Response): Promise<vo
     await UserRoleSchema.findByIdAndDelete(req.params.id);
     res.json({ status: "Deleted!" });
   } catch (error: string | any) {
-    res.status(500).send("Error deleting role by id: " + error.message);
+    throw res.status(500).send("Error deleting role by id: " + error.message);
   }
 };
 
@@ -63,7 +63,7 @@ const handleCreateNewUserRole = async (req: Request, res: Response): Promise<voi
     }
   } catch (error) {
     console.log(error);
-    res.status(500).send(error);
+   throw res.status(500).send(error);
   }
 };
 

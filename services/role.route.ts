@@ -7,6 +7,7 @@ import {
     handleDeleteUserRoleById,
     handleCreateNewUserRole
 } from "../controller/roleController";
+import verifyAccessToken from "../middleware/Authenticate";
 
 const RoleRouter: Router = Router();
 
