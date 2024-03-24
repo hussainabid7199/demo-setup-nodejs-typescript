@@ -4,7 +4,10 @@
   "description": "Nodejs with typescript",
   "main": "app.js",
   "scripts": {
-    "start": "ts-node app.ts"
+    "start": "nodemon src/index.ts",
+    "build": "rimraf dist && tsc",
+    "ts.check": "tsc --project tsconfig.json",
+    "add-build": "git add dist"
   },
   "author": "Abid Hussain",
   "license": "ISC",
