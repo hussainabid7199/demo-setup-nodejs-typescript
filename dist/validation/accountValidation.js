@@ -27,5 +27,6 @@ const Yup = __importStar(require("yup"));
 const accountValidation = Yup.object({
     email: Yup.string().email().required("Email is required"),
     password: Yup.string().required(),
+    rememberMe: Yup.boolean()
 }).required();
 exports.default = accountValidation;

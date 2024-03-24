@@ -24,10 +24,11 @@ const handleLogin = async (req, res, next) => {
             throw http_errors_1.default.Unauthorized("Email or Password is not valid!");
         }
         const accessToken = await (0, jwt_helper_1.loginAccessToken)(user.id);
+        user.token = accessToken;
         res.cookie("cookies", accessToken, { httpOnly: true, secure: true });
         res.setHeader('Authorization', `at ${accessToken}`);
-        res.setHeader('client_id', `${process.env.CLIENT_ID}`);
-        (0, CustomResponse_1.default)(res, 200, "json", "Login Successfull!");
+        res.setHeader('clientId', `${process.env.CLIENT_ID}`);
+        (0, CustomResponse_1.default)(res, 200, "json", user);
     }
     catch (error) {
         if (error.name === 'ValidationError') {

@@ -46,9 +46,8 @@ let baseUrl = process.env.BASE_URL || "default_value";
 app.use((0, cors_1.default)({
     "origin": baseUrl,
     "methods": ['GET', 'PUT', 'POST', 'PATCH', 'DELETE'],
-    "preflightContinue": true,
     "optionsSuccessStatus": 204,
-    "allowedHeaders": ['Content-Type', 'Authorization', 'clientId'],
+    "allowedHeaders": ['Content-Type', 'Clientid', 'Authorization'],
     "credentials": true
 }));
 app.use(ErrorHandler_1.default);

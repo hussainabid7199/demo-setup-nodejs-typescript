@@ -9,22 +9,37 @@ const UserSchema_1 = __importDefault(require("../schema/UserSchema"));
 const RoleSchema_1 = __importDefault(require("../schema/RoleSchema"));
 const userValidation_1 = __importDefault(require("../validation/userValidation"));
 const handleAllUsers = async (req, res) => {
-    const allUser = await UserSchema_1.default.find({});
-    const response = res.json(allUser);
-    res.send(response.json());
+    try {
+        const allUsers = await UserSchema_1.default.find();
+        return res.json(allUsers); // Sending JSON response directly
+    }
+    catch (e) {
+        throw res.status(500).json({ error: e });
+    }
 };
 exports.handleAllUsers = handleAllUsers;
 const handleGetUserById = async (req, res) => {
-    let user = await UserSchema_1.default.findById(req.params.id);
-    if (!user)
-        res.status(404).send("No user with that id!");
-    res.send(user).json();
+    try {
+        let user = await UserSchema_1.default.findById(req.params.id);
+        if (!user)
+            res.status(404).send("No user with that id!");
+        res.send(user).json();
+    }
+    catch (e) {
+        throw res.status(500).json({ error: e });
+    }
 };
 exports.handleGetUserById = handleGetUserById;
 const handleUpdateUserById = async (req, res) => {
-    let user = await UserSchema_1.default.findByIdAndUpdate(req.params.id, userValidation_1.default);
-    !user ? res.status(404).send('The user does not exist') :
-        res.send(user).json();
+    try {
+        let user = await UserSchema_1.default.findByIdAndUpdate(req.params.id, userValidation_1.default);
+        !user
+            ? res.status(404).send("The user does not exist")
+            : res.send(user).json();
+    }
+    catch (e) {
+        throw res.status(500).json({ error: e });
+    }
 };
 exports.handleUpdateUserById = handleUpdateUserById;
 const handleDeleteUserById = async (req, res) => {
@@ -48,7 +63,7 @@ const handleCreateNewUser = async (req, res) => {
             !newUser.confirmPassword ||
             !newUser.role ||
             !newUser.isActive) {
-            "All Fields Required";
+            ("All Fields Required");
         }
         else {
             const userExist = await UserSchema_1.default.findOne({ email: newUser.email });
@@ -60,7 +75,9 @@ const handleCreateNewUser = async (req, res) => {
                     res.status(422).json({ message: "User role required!" });
                 }
                 else {
-                    const userRole = await RoleSchema_1.default.findOne({ roleName: newUser.role });
+                    const userRole = await RoleSchema_1.default.findOne({
+                        roleName: newUser.role,
+                    });
                     const encryptPassword = bcrypt_1.default.hashSync(newUser.password, 12);
                     newUser.password = encryptPassword;
                     const encryptConfirmPassword = bcrypt_1.default.hashSync(newUser.confirmPassword, 12);
@@ -76,8 +93,8 @@ const handleCreateNewUser = async (req, res) => {
         }
     }
     catch (e) {
-        console.log({ "error": e });
-        res.status(500).send({ "message": e });
+        console.log({ error: e });
+        throw res.status(500).send({ message: e });
     }
 };
 exports.handleCreateNewUser = handleCreateNewUser;

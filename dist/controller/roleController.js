@@ -12,7 +12,7 @@ const handleAllUserRole = async (req, res) => {
         !allRole ? (0, CustomResponse_1.default)(res, 400, "json", allRole) : (0, CustomResponse_1.default)(res, 200, "json", allRole);
     }
     catch (error) {
-        res.status(500).send("Error retrieving all roles: " + error.message);
+        throw res.status(500).send("Error retrieving all roles: " + error.message);
     }
 };
 exports.handleAllUserRole = handleAllUserRole;
@@ -22,7 +22,7 @@ const handleGetUserRoleById = async (req, res) => {
         !user ? res.status(404).send("No role with that id!") : res.json(user);
     }
     catch (error) {
-        res.status(500).send("Error retrieving role by id: " + error.message);
+        throw res.status(500).send("Error retrieving role by id: " + error.message);
     }
 };
 exports.handleGetUserRoleById = handleGetUserRoleById;
@@ -34,7 +34,7 @@ const handleUpdateUserRoleById = async (req, res) => {
         res.json({ status: "Success" });
     }
     catch (error) {
-        res.status(500).send("Error updating role by id: " + error.message);
+        throw res.status(500).send("Error updating role by id: " + error.message);
     }
 };
 exports.handleUpdateUserRoleById = handleUpdateUserRoleById;
@@ -44,7 +44,7 @@ const handleDeleteUserRoleById = async (req, res) => {
         res.json({ status: "Deleted!" });
     }
     catch (error) {
-        res.status(500).send("Error deleting role by id: " + error.message);
+        throw res.status(500).send("Error deleting role by id: " + error.message);
     }
 };
 exports.handleDeleteUserRoleById = handleDeleteUserRoleById;
@@ -74,7 +74,7 @@ const handleCreateNewUserRole = async (req, res) => {
     }
     catch (error) {
         console.log(error);
-        res.status(500).send(error);
+        throw res.status(500).send(error);
     }
 };
 exports.handleCreateNewUserRole = handleCreateNewUserRole;
