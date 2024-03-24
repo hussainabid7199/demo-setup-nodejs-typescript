@@ -1,6 +1,8 @@
+import { Schema } from "mongoose";
+
 export default interface StudentModel{
     userId: string;
-    roleId: string;
+    roleId?: string;
     username: string;
     firstName: string;
     lastName: string;

@@ -5,15 +5,15 @@ import {
     handleGetUserById,
     handleUpdateUserById,
     handleDeleteUserById,
-    handleCreateNewUser
+    handleCreateNewUser,
 } from "../controller/userController";
 
-const RoleRouter: Router = Router();
+const UserRouter: Router = Router();
 
-RoleRouter.get("/", AsyncHandler(handleAllUsers));
-RoleRouter.post("/", AsyncHandler(handleCreateNewUser));
-RoleRouter.put("/:id", AsyncHandler(handleUpdateUserById));
-RoleRouter.delete("/:id", AsyncHandler(handleDeleteUserById));
-RoleRouter.get("/:id", AsyncHandler(handleGetUserById));
+UserRouter.get("/", AsyncHandler(handleAllUsers));
+UserRouter.post("/", AsyncHandler(handleCreateNewUser));
+UserRouter.put("/:id", AsyncHandler(handleUpdateUserById));
+UserRouter.delete("/:id", AsyncHandler(handleDeleteUserById));
+UserRouter.get("/:id", AsyncHandler(handleGetUserById));
 
-export default RoleRouter;
+export default UserRouter;

@@ -9,13 +9,14 @@ interface TokenPayload {
   userId: string;
 }
 
-
+let id:string = "";
 export const loginAccessToken = (userId: string): Promise<string> => {
+  id=userId;
   return new Promise((resolve, reject) => {
     const payload: TokenPayload = {"userId": userId};
     const secret: Secret = process.env.SECRET_KEY as string;
     const options: SignOptions = {
-      expiresIn: '24h',
+      expiresIn: '1h',
       issuer: process.env.ISS,
       audience: '*',
     };
@@ -29,12 +30,12 @@ export const loginAccessToken = (userId: string): Promise<string> => {
   });
 };
 
-export const refreshAccessToken = (userId: string): Promise<string> => {
+export const refreshAccessToken = (): Promise<string> => {
   return new Promise((resolve, reject) => {
-    const payload: TokenPayload = {"userId": userId};
+    const payload: TokenPayload = {"userId": id};
     const secret: Secret = process.env.REFRESH_KEY as string;
     const options: SignOptions = {
-      expiresIn: '24h',
+      expiresIn: '1h',
       issuer: process.env.ISS,
       audience: '*',
     };
