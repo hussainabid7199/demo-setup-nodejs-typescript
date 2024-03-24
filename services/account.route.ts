@@ -5,6 +5,6 @@ import AsyncHandler from '../middleware/AsyncHandler';
 
 const LoginRouter = Router();
 
-LoginRouter.post("/", AsyncHandler(handleLogin));
+LoginRouter.post("/", handleLogin);
 
 export default LoginRouter;

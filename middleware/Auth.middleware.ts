@@ -1,5 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import jwt, { VerifyErrors } from "jsonwebtoken";
+import { decodeToken, isTokenExpired } from "./CheckExpriation";
+import { refreshAccessToken } from "./jwt.helper";
 
 const Authenticate = (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -23,9 +25,12 @@ const Authenticate = (req: Request, res: Response, next: NextFunction) => {
     }
 
     const secretKey: string = process.env.SECRET_KEY as string;
+
     const decoded: any = jwt.verify(token, secretKey) as VerifyErrors;
 
+
     (req as any).user = decoded;
+    
     next();
   } catch (error) {
     console.error("Unauthorized Error:", error);

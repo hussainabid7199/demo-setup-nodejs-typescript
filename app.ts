@@ -7,7 +7,6 @@ import connectDatabase from "./connection/database";
 import ErrorHandler from './helper/ErrorHandler';
 import routes from "./routes";
 
-
 // Database connection
 const connectionString: string = process.env.DB_URL || "";
 connectDatabase(connectionString);
@@ -27,16 +26,21 @@ let baseUrl: string = process.env.BASE_URL || "default_value";
 app.use(cors({
     "origin": baseUrl,
     "methods": ['GET', 'PUT', 'POST', 'PATCH', 'DELETE'],
-    "preflightContinue": true,
     "optionsSuccessStatus": 204,
-    "allowedHeaders": ['Content-Type','Authorization', 'clientId'],
+    "allowedHeaders": ['Content-Type', 'Clientid', 'Authorization'],
     "credentials": true
 }));
+
+
+
+
+
+app.use(routes);
 
 app.use(ErrorHandler);
 
 
-app.use(routes);
+
 
 
 

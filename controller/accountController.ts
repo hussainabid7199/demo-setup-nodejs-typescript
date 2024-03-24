@@ -26,6 +26,7 @@ const handleLogin = async (req: Request, res: Response, next: NextFunction): Pro
             throw createError.Unauthorized("Email or Password is not valid!");
         }
 
+
         const accessToken = await loginAccessToken(user.id);
         user.token = accessToken;
         res.cookie("cookies", accessToken, { httpOnly: true, secure: true });

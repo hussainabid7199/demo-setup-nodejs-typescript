@@ -3,7 +3,7 @@ import AsyncHandler from "../middleware/AsyncHandler";
 import {
     handleCreateNewStudent, handleGetStudentById, handleAllStudent
 } from "../controller/studentController";
-import authentication from "../middleware/Authenticate";
+import authentication from "../middleware/Auth.middleware";
 
 const StudentRouter: Router = Router();
 
