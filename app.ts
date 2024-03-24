@@ -33,12 +33,12 @@ app.use(cors({
     "credentials": true
 }));
 
-app.get("/", (req, res) => {
-    return res.status(200).send("Welcome to the ESS");
-});
 
 app.use(ErrorHandler);
 
+app.get("/", (req, res) => {
+    return res.status(200).send("Welcome to the ESS");
+});
 
 app.use(routes);
 
