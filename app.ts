@@ -33,8 +33,8 @@ app.use(cors({
     "credentials": true
 }));
 
-app.get("/test", (req, res) => {
-    return res.status(200).send("Welcome to the API");
+app.get("/", (req, res) => {
+    return res.status(200).send("Welcome to the ESS");
 });
 
 app.use(ErrorHandler);
